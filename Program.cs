@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using webapi;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -5,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddDbContext<AplicattionDbContext>(options => options.UseSqlite("Data Source=myapp.db"));
 
 var app = builder.Build();
 
