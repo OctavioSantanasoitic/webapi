@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders.Composite;
+using webapi.DTOs;
 using webapi.Models;
 
 namespace webapi.Controllers;
@@ -15,6 +16,19 @@ public class DiretorController : ControllerBase
         _context = context;
     }
 
+    [HttpGet("{id:int}")]
+    public async Task<ActionResult<DiretorDTOInput>> GetByIdMovies(long id)
+    {
+        var idDiretor = await _context.Diretores.FindAsync(id);
+
+        if (idDiretor == null)
+            return NotFound("Id do Diretor não encontrado");
+
+        return Ok(idDiretor);
+
+
+    }
+
     [HttpGet]
     public async Task<List<Diretor>> GetMovies()
     {
@@ -23,24 +37,29 @@ public class DiretorController : ControllerBase
 
     [HttpPost]
 
-    public async Task<ActionResult<Diretor>> Post(
-        [FromBody] Diretor diretor
+    public async Task<ActionResult<DiretorDTOOutput>> Post(
+        [FromBody] DiretorDTOInput diretorDTOInput
     )
     {
+        var diretor = new Diretor(diretorDTOInput.Nome);
         _context.Diretores.Add(diretor);
         await _context.SaveChangesAsync();
 
-        return Ok(diretor);
+
+        var diretorDTOOutput = new DiretorDTOOutput(diretor.Id, diretor.Nome);
+
+        return Ok(diretorDTOOutput);
     }
 
-    [HttpPut]
+    [HttpPut("{id:int}")]
 
-    public async Task<IActionResult> Put(
-     [FromBody] Diretor model,
+    public async Task<ActionResult<DiretorDTOOutput>> Put(
+     [FromBody] DiretorDTOInput model,
+     [FromRoute] int id,
      [FromServices] AplicattionDbContext context
      )
     {
-        var diretor = await context.Diretores.FirstOrDefaultAsync(x => x.Id == model.Id);
+        var diretor = await context.Diretores.FirstOrDefaultAsync(x => x.Id == id);
 
         diretor.Nome = model.Nome;
 
@@ -51,14 +70,14 @@ public class DiretorController : ControllerBase
 
     }
 
-    [HttpDelete]
+    [HttpDelete("{id:int}")]
 
-    public async Task<IActionResult> DeleteDiretor(
-    [FromBody] Diretor model,
+    public async Task<ActionResult<DiretorDTOInput>> DeleteDiretor(
+    [FromRoute] int id,
     [FromServices] AplicattionDbContext context
     )
     {
-        var diretor = await context.Diretores.FirstOrDefaultAsync(x => x.Id == model.Id);
+        var diretor = await context.Diretores.FirstOrDefaultAsync(x => x.Id == id);
 
         context.Diretores.Remove(diretor);
         await context.SaveChangesAsync();
