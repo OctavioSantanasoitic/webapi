@@ -1,14 +1,14 @@
 
 
-namespace webapi.DTOs
+namespace webapi.DTOs.Diretores
 {
-    public class DiretorDTOOutput
+    public class DiretorDTOOutputPost
     {
         public string Nome { get; set; }
 
         public long Id { get; set; }
 
-        public DiretorDTOOutput(long id, string nome)
+        public DiretorDTOOutputPost(long id, string nome)
         {
             Id = id;
             Nome = nome;

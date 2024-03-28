@@ -1,9 +1,10 @@
-namespace webapi.Models;
+using webapi.Models;
 
-public class Filme
+namespace webapi.DTOs.Filmes;
+
+
+public class FilmeDTOOutputGetByAll
 {
-
-
     public int Id { get; set; }
     public string Titulo { get; set; }
 
@@ -13,20 +14,15 @@ public class Filme
 
     public long DiretorId { get; set; }
 
-    public Diretor Diretor { get; set; }
+    public string NomeDiretor { get; set; }
 
-
-    public Filme(string titulo, DateTime ano, string genero, long diretorId)
+    public FilmeDTOOutputGetByAll(int id, string titulo, DateTime ano, string genero, long diretorId, string nomeDiretor)
     {
+        Id = id;
         Titulo = titulo;
         Ano = ano;
         Genero = genero;
         DiretorId = diretorId;
-
+        NomeDiretor = nomeDiretor;
     }
-
-
-
-
-
 }

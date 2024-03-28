@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using webapi.DTOs.Filmes;
 using webapi.Models;
 
 namespace webapi.Controllers;
@@ -15,52 +16,104 @@ public class MovieController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<List<Filme>> GetMovies()
+    public async Task<List<FilmeDTOOutputGetByAll>> GetMovies()
     {
-        return await _context.Filmes.ToListAsync();
+        var filmes = await _context.Filmes.Include(filme => filme.Diretor)
+                                          .ToListAsync();
+
+        var infoFilmes = new List<FilmeDTOOutputGetByAll>();
+
+        foreach (Filme filme in filmes)
+        {
+            var getFilmes = new FilmeDTOOutputGetByAll(
+                filme.Id, filme.Titulo, filme.Ano, filme.Genero, filme.DiretorId, filme.Diretor.Nome);
+
+            infoFilmes.Add(getFilmes);
+
+        }
+
+        return infoFilmes;
+    }
+
+    [HttpGet("{id:int}")]
+
+    public async Task<ActionResult<FilmeDTOOutputGetById>> GetByIdMovies(int id)
+    {
+        var filme = await _context.Filmes.Include(filme => filme.Diretor)
+                                         .FirstOrDefaultAsync(x => x.Id == id);
+
+        if (filme == null)
+        {
+            return Conflict("Id do Filme não existe");
+        }
+
+        var outpuDTO = new FilmeDTOOutputGetById(
+            filme.Id, filme.Titulo, filme.Ano, filme.Genero, filme.DiretorId, filme.Diretor.Nome);
+
+        return Ok(outpuDTO);
     }
 
     [HttpPost]
 
-    public async Task<ActionResult<Filme>> Post(
-        [FromBody] Filme filme
+    public async Task<ActionResult<FilmeDTOOutputPost>> Post(
+        [FromBody] FilmeDTOInputPost inputDTO
     )
     {
+        var diretor = await _context.Diretores.FirstOrDefaultAsync(diretor => diretor.Id == inputDTO.DiretorId);
+
+        if (diretor == null)
+        {
+            return Conflict("Id do Diretor não existe");
+        }
+
+        var filme = new Filme(inputDTO.Titulo, inputDTO.Ano, inputDTO.Genero, inputDTO.DiretorId);
         _context.Filmes.Add(filme);
         await _context.SaveChangesAsync();
 
-        return Ok(filme);
+        var filmeDTOOutput = new FilmeDTOOutputPost(filme.Id, filme.Titulo, filme.Ano, filme.Genero, filme.DiretorId);
+
+        return Ok(filmeDTOOutput);
     }
 
-    [HttpPut]
+    [HttpPut("{id:int}")]
 
-    public async Task<IActionResult> Put(
-     [FromBody] Filme model,
-     [FromServices] AplicattionDbContext context
+    public async Task<ActionResult<FilmeDTOOutputPut>> Put(
+     [FromRoute] int id,
+     [FromBody] FilmeDTOInputPut inputDTO
      )
     {
-        var filme = await context.Filmes.FirstOrDefaultAsync(x => x.Id == model.Id);
+        var filme = new Filme(inputDTO.Titulo, inputDTO.Ano, inputDTO.Genero, inputDTO.DiretorId);
 
-        filme.Titulo = model.Titulo;
+        filme.Id = id;
 
-        context.Filmes.Update(filme);
-        await context.SaveChangesAsync();
+        _context.Filmes.Update(filme);
+        await _context.SaveChangesAsync();
 
-        return Ok(filme);
+
+        var outputDto = new FilmeDTOOutputPut(filme.Id, filme.Titulo, filme.Ano, filme.Genero, filme.DiretorId);
+
+        return Ok(outputDto);
 
     }
 
-    [HttpDelete]
+    [HttpDelete("{id:int}")]
 
-    public async Task<IActionResult> DeleteFilme(
-    [FromBody] Filme model,
-    [FromServices] AplicattionDbContext context
+    public async Task<ActionResult<FilmeDTOOutputDelete>> DeleteFilme(
+    [FromRoute] int id
     )
     {
-        var filme = await context.Filmes.FirstOrDefaultAsync(x => x.Id == model.Id);
+        var filme = await _context.Filmes.Include(filme => filme.Diretor)
+                                         .FirstOrDefaultAsync(x => x.Id == id);
 
-        context.Filmes.Remove(filme);
-        await context.SaveChangesAsync();
+        if (filme == null)
+        {
+            return Conflict("Id do Filme não existe");
+        }
+
+        _context.Filmes.Remove(filme);
+        await _context.SaveChangesAsync();
+
+        var outpuDTO = new FilmeDTOOutputDelete(filme.Id, filme.Titulo, filme.Ano, filme.Genero, filme.DiretorId, filme.Diretor.Nome);
 
         return Ok(filme);
 
