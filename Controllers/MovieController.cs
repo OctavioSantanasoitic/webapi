@@ -14,9 +14,11 @@ public class MovieController : ControllerBase
     {
         _context = context;
     }
-
+    /// <summary>
+    /// Busca Todos os Filmes
+    /// </summary>
     [HttpGet]
-    public async Task<List<FilmeDTOOutputGetByAll>> GetMovies()
+    public async Task<ActionResult<List<FilmeDTOOutputGetByAll>>> GetMovies()
     {
         var filmes = await _context.Filmes.Include(filme => filme.Diretor)
                                           .ToListAsync();
@@ -32,9 +34,14 @@ public class MovieController : ControllerBase
 
         }
 
+        if (!infoFilmes.Any())
+            return NotFound("Não existem filmes cadastrados!");
+
         return infoFilmes;
     }
-
+    /// <summary>
+    /// Busca o Filme pelo Id Específico
+    /// </summary>
     [HttpGet("{id:int}")]
 
     public async Task<ActionResult<FilmeDTOOutputGetById>> GetByIdMovies(int id)
@@ -42,17 +49,19 @@ public class MovieController : ControllerBase
         var filme = await _context.Filmes.Include(filme => filme.Diretor)
                                          .FirstOrDefaultAsync(x => x.Id == id);
 
+
         if (filme == null)
-        {
-            return Conflict("Id do Filme não existe");
-        }
+            throw new ArgumentNullException("Filme Não encontrado!");
+
 
         var outpuDTO = new FilmeDTOOutputGetById(
             filme.Id, filme.Titulo, filme.Ano, filme.Genero, filme.DiretorId, filme.Diretor.Nome);
 
         return Ok(outpuDTO);
     }
-
+    /// <summary>
+    /// Cria um Filme
+    /// </summary>
     [HttpPost]
 
     public async Task<ActionResult<FilmeDTOOutputPost>> Post(
@@ -74,7 +83,9 @@ public class MovieController : ControllerBase
 
         return Ok(filmeDTOOutput);
     }
-
+    /// <summary>
+    /// Altera Informações do Filme
+    /// </summary>
     [HttpPut("{id:int}")]
 
     public async Task<ActionResult<FilmeDTOOutputPut>> Put(
@@ -83,6 +94,11 @@ public class MovieController : ControllerBase
      )
     {
         var filme = new Filme(inputDTO.Titulo, inputDTO.Ano, inputDTO.Genero, inputDTO.DiretorId);
+
+        if (inputDTO.DiretorId == 0)
+        {
+            return Conflict("Id do Diretor Invalido");
+        }
 
         filme.Id = id;
 
@@ -95,7 +111,9 @@ public class MovieController : ControllerBase
         return Ok(outputDto);
 
     }
-
+    /// <summary>
+    ///Deleta o Filme
+    /// </summary>
     [HttpDelete("{id:int}")]
 
     public async Task<ActionResult<FilmeDTOOutputDelete>> DeleteFilme(
