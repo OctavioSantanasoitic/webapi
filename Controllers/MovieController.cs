@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using webapi.DTOs.Filmes;
 using webapi.Models;
+using webapi.Services.Filmes;
 
 namespace webapi.Controllers;
 
@@ -10,9 +11,11 @@ namespace webapi.Controllers;
 public class MovieController : ControllerBase
 {
     private readonly AplicattionDbContext _context;
-    public MovieController(AplicattionDbContext context)
+    private readonly IMovieService _movieService;
+    public MovieController(AplicattionDbContext context, IMovieService movieService)
     {
         _context = context;
+        _movieService = movieService;
     }
     /// <summary>
     /// Busca Todos os Filmes
@@ -20,8 +23,7 @@ public class MovieController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<List<FilmeDTOOutputGetByAll>>> GetMovies()
     {
-        var filmes = await _context.Filmes.Include(filme => filme.Diretor)
-                                          .ToListAsync();
+        var filmes = await _movieService.GetFilmes();
 
         var infoFilmes = new List<FilmeDTOOutputGetByAll>();
 
@@ -34,9 +36,6 @@ public class MovieController : ControllerBase
 
         }
 
-        if (!infoFilmes.Any())
-            return NotFound("Não existem filmes cadastrados!");
-
         return infoFilmes;
     }
     /// <summary>
@@ -46,12 +45,7 @@ public class MovieController : ControllerBase
 
     public async Task<ActionResult<FilmeDTOOutputGetById>> GetByIdMovies(int id)
     {
-        var filme = await _context.Filmes.Include(filme => filme.Diretor)
-                                         .FirstOrDefaultAsync(x => x.Id == id);
-
-
-        if (filme == null)
-            throw new ArgumentNullException("Filme Não encontrado!");
+        var filme = await _movieService.GetById(id);
 
 
         var outpuDTO = new FilmeDTOOutputGetById(
@@ -68,16 +62,9 @@ public class MovieController : ControllerBase
         [FromBody] FilmeDTOInputPost inputDTO
     )
     {
-        var diretor = await _context.Diretores.FirstOrDefaultAsync(diretor => diretor.Id == inputDTO.DiretorId);
 
-        if (diretor == null)
-        {
-            return Conflict("Id do Diretor não existe");
-        }
+        var filme = await _movieService.CriaFilme(new Filme(inputDTO.Titulo, inputDTO.Ano, inputDTO.Genero, inputDTO.DiretorId));
 
-        var filme = new Filme(inputDTO.Titulo, inputDTO.Ano, inputDTO.Genero, inputDTO.DiretorId);
-        _context.Filmes.Add(filme);
-        await _context.SaveChangesAsync();
 
         var filmeDTOOutput = new FilmeDTOOutputPost(filme.Id, filme.Titulo, filme.Ano, filme.Genero, filme.DiretorId);
 
@@ -93,18 +80,7 @@ public class MovieController : ControllerBase
      [FromBody] FilmeDTOInputPut inputDTO
      )
     {
-        var filme = new Filme(inputDTO.Titulo, inputDTO.Ano, inputDTO.Genero, inputDTO.DiretorId);
-
-        if (inputDTO.DiretorId == 0)
-        {
-            return Conflict("Id do Diretor Invalido");
-        }
-
-        filme.Id = id;
-
-        _context.Filmes.Update(filme);
-        await _context.SaveChangesAsync();
-
+        var filme = await _movieService.AtualizaFilme(new Filme(inputDTO.Titulo, inputDTO.Ano, inputDTO.Genero, inputDTO.DiretorId), id);
 
         var outputDto = new FilmeDTOOutputPut(filme.Id, filme.Titulo, filme.Ano, filme.Genero, filme.DiretorId);
 
@@ -120,20 +96,8 @@ public class MovieController : ControllerBase
     [FromRoute] int id
     )
     {
-        var filme = await _context.Filmes.Include(filme => filme.Diretor)
-                                         .FirstOrDefaultAsync(x => x.Id == id);
-
-        if (filme == null)
-        {
-            return Conflict("Id do Filme não existe");
-        }
-
-        _context.Filmes.Remove(filme);
-        await _context.SaveChangesAsync();
-
-        var outpuDTO = new FilmeDTOOutputDelete(filme.Id, filme.Titulo, filme.Ano, filme.Genero, filme.DiretorId, filme.Diretor.Nome);
-
-        return Ok(filme);
+        await _movieService.Exclui(id);
+        return Ok("Filme Excluído com Sucesso!");
 
     }
 

@@ -34,10 +34,6 @@ public class ErrorHandlingMiddleware
             code = HttpStatusCode.BadRequest;
 
 
-        else if (ex is KeyNotFoundException)
-            code = HttpStatusCode.NotFound;
-
-
         context.Response.ContentType = "application/json";
         context.Response.StatusCode = (int)code;
 

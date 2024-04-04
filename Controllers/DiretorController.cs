@@ -4,6 +4,7 @@ using Microsoft.Extensions.FileProviders.Composite;
 using webapi.DTOs;
 using webapi.DTOs.Diretores;
 using webapi.Models;
+using webapi.Services.Diretores;
 
 namespace webapi.Controllers;
 
@@ -12,9 +13,12 @@ namespace webapi.Controllers;
 public class DiretorController : ControllerBase
 {
     private readonly AplicattionDbContext _context;
-    public DiretorController(AplicattionDbContext context)
+
+    private readonly IDiretorService _diretorService;
+    public DiretorController(AplicattionDbContext context, IDiretorService diretorService)
     {
         _context = context;
+        _diretorService = diretorService;
     }
 
     /// <summary>
@@ -25,16 +29,12 @@ public class DiretorController : ControllerBase
     {
 
 
-        var diretor = await _context.Diretores.FirstOrDefaultAsync(d => d.Id == id);
+        var diretor = await _diretorService.GetById(id);
 
-
-        if (diretor == null)
-            throw new ArgumentNullException("Diretor Não encontrado!");
 
         var idDiretor = new DiretorDTOOutputGetById(diretor.Id, diretor.Nome);
 
         return Ok(idDiretor);
-
 
 
 
@@ -45,17 +45,15 @@ public class DiretorController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<List<DiretorDTOOutputGetAll>>> GetMovies()
     {
-        var diretores = await _context.Diretores.ToListAsync();
+        var diretores = await _diretorService.GetDiretor();
 
         var outputDTOList = new List<DiretorDTOOutputGetAll>();
+
 
         foreach (Diretor diretor in diretores)
         {
             outputDTOList.Add(new DiretorDTOOutputGetAll(diretor.Id, diretor.Nome));
         }
-
-        if (!outputDTOList.Any())
-            return NotFound("Não Existem Diretores cadastrados");
 
         return outputDTOList;
 
@@ -72,9 +70,7 @@ public class DiretorController : ControllerBase
     )
     {
 
-        var diretor = new Diretor(diretorDTOInput.Nome);
-        _context.Diretores.Add(diretor);
-        await _context.SaveChangesAsync();
+        var diretor = await _diretorService.CriaDiretor(new Diretor(diretorDTOInput.Nome));
 
 
         var diretorDTOOutput = new DiretorDTOOutputPost(diretor.Id, diretor.Nome);
@@ -96,11 +92,8 @@ public class DiretorController : ControllerBase
      )
     {
 
-        var diretor = new Diretor(model.Nome);
+        var diretor = await _diretorService.AtualizaDiretor(new Diretor(model.Nome), id);
 
-        diretor.Id = id;
-        context.Diretores.Update(diretor);
-        await context.SaveChangesAsync();
 
         var diretorDTOOutput = new DiretorDTOOutputPut(diretor.Id, diretor.Nome);
 
@@ -119,12 +112,8 @@ public class DiretorController : ControllerBase
     )
     {
 
-        var diretor = await context.Diretores.FirstOrDefaultAsync(x => x.Id == id);
-
-        context.Diretores.Remove(diretor);
-        await context.SaveChangesAsync();
-
-        return Ok(diretor);
+        await _diretorService.Exclui(id);
+        return Ok("Diretor Excluído com Sucesso!");
 
 
 
