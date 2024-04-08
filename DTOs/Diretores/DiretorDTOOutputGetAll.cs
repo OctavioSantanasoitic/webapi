@@ -1,5 +1,18 @@
 namespace webapi.DTOs.Diretores;
 
+public class DiretorListOutputGetAllDTO
+
+{
+    public int CurrentPage { get; init; }
+
+    public int TotalItems { get; init; }
+
+    public int TotalPages { get; init; }
+
+    public List<DiretorDTOOutputGetAll> Items { get; init; }
+
+}
+
 public class DiretorDTOOutputGetAll
 {
 

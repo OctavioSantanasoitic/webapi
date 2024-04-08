@@ -16,16 +16,25 @@ public class DiretorService : IDiretorService
 
     }
 
-    public async Task<List<Diretor>> GetDiretor()
+    public async Task<DiretorListOutputGetAllDTO> GetByPageAsync(int limit, int page, CancellationToken cancellationToken)
     {
-        var diretores = await _context.Diretores.ToListAsync();
+        var pagedModel = await _context.Diretores
+                .AsNoTracking()
+                .OrderBy(p => p.Id)
+                .PaginateAsync(page, limit, cancellationToken);
 
-        if (!diretores.Any())
-            throw new Exception("Não Existem Diretores Cadastrados");
+        if (!pagedModel.Items.Any())
+        {
+            throw new Exception("Não existem diretores cadastrados!");
+        }
 
-        return diretores;
-
-
+        return new DiretorListOutputGetAllDTO
+        {
+            CurrentPage = pagedModel.CurrentPage,
+            TotalPages = pagedModel.TotalPages,
+            TotalItems = pagedModel.TotalItems,
+            Items = pagedModel.Items.Select(diretor => new DiretorDTOOutputGetAll(diretor.Id, diretor.Nome)).ToList()
+        };
     }
 
     public async Task<Diretor> GetById(long id)

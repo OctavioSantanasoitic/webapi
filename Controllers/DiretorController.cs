@@ -43,19 +43,10 @@ public class DiretorController : ControllerBase
     /// Busca Todos os Diretores
     /// </summary>
     [HttpGet]
-    public async Task<ActionResult<List<DiretorDTOOutputGetAll>>> GetMovies()
+    public async Task<ActionResult<DiretorListOutputGetAllDTO>> GetMovies(CancellationToken cancellationToken, int limit = 5, int page = 1)
     {
-        var diretores = await _diretorService.GetDiretor();
+        return await _diretorService.GetByPageAsync(limit, page, cancellationToken);
 
-        var outputDTOList = new List<DiretorDTOOutputGetAll>();
-
-
-        foreach (Diretor diretor in diretores)
-        {
-            outputDTOList.Add(new DiretorDTOOutputGetAll(diretor.Id, diretor.Nome));
-        }
-
-        return outputDTOList;
 
 
 

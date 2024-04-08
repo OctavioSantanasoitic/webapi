@@ -2,6 +2,20 @@ using webapi.Models;
 
 namespace webapi.DTOs.Filmes;
 
+public class FilmeListOutputGetAllDTO
+
+{
+    public int CurrentPage { get; init; }
+
+    public int TotalItems { get; init; }
+
+    public int TotalPages { get; init; }
+
+    public List<FilmeDTOOutputGetByAll> Items { get; init; }
+
+}
+
+
 
 public class FilmeDTOOutputGetByAll
 {

@@ -1,10 +1,11 @@
+using webapi.DTOs.Filmes;
 using webapi.Models;
 
 namespace webapi.Services.Filmes;
 
 public interface IMovieService
 {
-    Task<List<Filme>> GetFilmes();
+    Task<FilmeListOutputGetAllDTO> GetByPageAsync(int limit, int page, CancellationToken cancellationToken);
     Task<Filme> GetById(long id);
 
     Task<Filme> CriaFilme(Filme filme);

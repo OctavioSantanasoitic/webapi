@@ -21,22 +21,11 @@ public class MovieController : ControllerBase
     /// Busca Todos os Filmes
     /// </summary>
     [HttpGet]
-    public async Task<ActionResult<List<FilmeDTOOutputGetByAll>>> GetMovies()
+    public async Task<ActionResult<FilmeListOutputGetAllDTO>> GetMovies(CancellationToken cancellationToken, int limit = 5, int page = 1)
     {
-        var filmes = await _movieService.GetFilmes();
+        return await _movieService.GetByPageAsync(limit, page, cancellationToken);
 
-        var infoFilmes = new List<FilmeDTOOutputGetByAll>();
 
-        foreach (Filme filme in filmes)
-        {
-            var getFilmes = new FilmeDTOOutputGetByAll(
-                filme.Id, filme.Titulo, filme.Ano, filme.Genero, filme.DiretorId, filme.Diretor.Nome);
-
-            infoFilmes.Add(getFilmes);
-
-        }
-
-        return infoFilmes;
     }
     /// <summary>
     /// Busca o Filme pelo Id Específico

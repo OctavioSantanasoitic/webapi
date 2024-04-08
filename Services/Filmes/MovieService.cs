@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using webapi.DTOs.Filmes;
 using webapi.Models;
 
 namespace webapi.Services.Filmes;
@@ -11,17 +12,28 @@ public class MovieService : IMovieService
     {
         _context = context;
     }
-    public async Task<List<Filme>> GetFilmes()
+    public async Task<FilmeListOutputGetAllDTO> GetByPageAsync(int limit, int page, CancellationToken cancellationToken)
     {
-        var filmes = await _context.Filmes.Include(filmes => filmes.Diretor)
-                                          .ToListAsync();
+        var pagedModel = await _context.Filmes
+                .AsNoTracking()
+                .Include(filme => filme.Diretor)
+                .OrderBy(p => p.Id)
+                .PaginateAsync(page, limit, cancellationToken);
 
-        if (!filmes.Any())
-            throw new Exception("Não Existem Filmes Cadastrados");
+        if (!pagedModel.Items.Any())
+        {
+            throw new Exception("Não existem diretores cadastrados!");
+        }
 
-        return filmes;
+        return new FilmeListOutputGetAllDTO
+        {
+            CurrentPage = pagedModel.CurrentPage,
+            TotalPages = pagedModel.TotalPages,
+            TotalItems = pagedModel.TotalItems,
+            Items = pagedModel.Items.Select(filme => new FilmeDTOOutputGetByAll(filme.Id, filme.Titulo, filme.Ano, filme.Genero, filme.DiretorId, filme.Diretor.Nome)).ToList()
+        };
+
     }
-
     public async Task<Filme> GetById(long id)
     {
         var idFilme = await _context.Filmes.Include(filme => filme.Diretor)

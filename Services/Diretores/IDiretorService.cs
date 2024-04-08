@@ -1,10 +1,12 @@
+using webapi.DTOs.Diretores;
 using webapi.Models;
 
 namespace webapi.Services.Diretores;
 
 public interface IDiretorService
 {
-    Task<List<Diretor>> GetDiretor();
+    Task<DiretorListOutputGetAllDTO> GetByPageAsync(int limit, int page, CancellationToken cancellationToken);
+
     Task<Diretor> GetById(long id);
 
     Task<Diretor> CriaDiretor(Diretor diretor);
