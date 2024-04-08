@@ -1,9 +1,10 @@
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using webapi.Models;
 
 namespace webapi;
 
-public class AplicattionDbContext : DbContext
+public class AplicattionDbContext : IdentityDbContext<ApplicationUser>
 {
     public DbSet<Filme> Filmes { get; set; }
 
