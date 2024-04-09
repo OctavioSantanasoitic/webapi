@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders.Composite;
@@ -8,6 +9,7 @@ using webapi.Services.Diretores;
 
 namespace webapi.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("[controller]")]
 public class DiretorController : ControllerBase

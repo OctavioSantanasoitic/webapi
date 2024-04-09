@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using webapi.DTOs.Filmes;
@@ -6,6 +7,7 @@ using webapi.Services.Filmes;
 
 namespace webapi.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("[controller]")]
 public class MovieController : ControllerBase
