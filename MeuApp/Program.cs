@@ -7,10 +7,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using webapi;
-using webapi.Models;
-using webapi.Services.Diretores;
-using webapi.Services.Filmes;
+using webapi.MeuApp;
+using webapi.MeuApp.Models;
+using webapi.MeuApp.Services.Diretores;
+using webapi.MeuApp.Services.Filmes;
 
 
 

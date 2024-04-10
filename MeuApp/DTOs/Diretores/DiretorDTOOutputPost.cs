@@ -1,6 +1,6 @@
 
 
-namespace webapi.DTOs.Diretores
+namespace webapi.MeuApp.DTOs.Diretores
 {
     public class DiretorDTOOutputPost
     {

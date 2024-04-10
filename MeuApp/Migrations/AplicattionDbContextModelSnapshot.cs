@@ -3,11 +3,11 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using webapi;
+using webapi.MeuApp;
 
 #nullable disable
 
-namespace webapi.Migrations
+namespace webapi.MeuApp.Migrations
 {
     [DbContext(typeof(AplicattionDbContext))]
     partial class AplicattionDbContextModelSnapshot : ModelSnapshot

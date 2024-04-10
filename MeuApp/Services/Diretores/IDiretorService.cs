@@ -1,7 +1,7 @@
-using webapi.DTOs.Diretores;
-using webapi.Models;
+using webapi.MeuApp.DTOs.Diretores;
+using webapi.MeuApp.Models;
 
-namespace webapi.Services.Diretores;
+namespace webapi.MeuApp.Services.Diretores;
 
 public interface IDiretorService
 {

@@ -3,6 +3,9 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using webapi.MeuApp.Models;
+
+namespace webapi.MeuApp.Extensions;
 
 public static class DataPagerExtension
 {

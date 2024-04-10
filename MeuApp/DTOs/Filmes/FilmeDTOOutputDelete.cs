@@ -1,4 +1,4 @@
-namespace webapi.DTOs.Filmes;
+namespace webapi.MeuApp.DTOs.Filmes;
 
 public class FilmeDTOOutputDelete
 {

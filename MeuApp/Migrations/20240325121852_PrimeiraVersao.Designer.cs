@@ -3,11 +3,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using webapi;
+using webapi.MeuApp;
 
 #nullable disable
 
-namespace webapi.Migrations
+namespace webapi.MeuApp.Migrations
 {
     [DbContext(typeof(AplicattionDbContext))]
     [Migration("20240325121852_PrimeiraVersao")]

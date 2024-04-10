@@ -1,11 +1,11 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using webapi.DTOs.Filmes;
-using webapi.Models;
-using webapi.Services.Filmes;
+using webapi.MeuApp.DTOs.Filmes;
+using webapi.MeuApp.Models;
+using webapi.MeuApp.Services.Filmes;
 
-namespace webapi.Controllers;
+namespace webapi.MeuApp.Controllers;
 
 [Authorize]
 [ApiController]

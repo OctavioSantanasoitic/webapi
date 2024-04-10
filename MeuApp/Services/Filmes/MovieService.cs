@@ -1,8 +1,9 @@
 using Microsoft.EntityFrameworkCore;
-using webapi.DTOs.Filmes;
-using webapi.Models;
+using webapi.MeuApp.DTOs.Filmes;
+using webapi.MeuApp.Models;
+using webapi.MeuApp.Extensions;
 
-namespace webapi.Services.Filmes;
+namespace webapi.MeuApp.Services.Filmes;
 
 public class MovieService : IMovieService
 {

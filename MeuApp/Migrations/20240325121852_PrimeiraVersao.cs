@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace webapi.Migrations
+namespace webapi.MeuApp.Migrations
 {
     /// <inheritdoc />
     public partial class PrimeiraVersao : Migration

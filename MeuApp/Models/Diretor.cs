@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Http.HttpResults;
 
-namespace webapi.Models;
+namespace webapi.MeuApp.Models;
 
 public class Diretor
 {

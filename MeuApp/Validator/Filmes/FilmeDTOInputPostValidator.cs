@@ -1,8 +1,8 @@
 using FluentValidation;
-using webapi.DTOs.Diretores;
-using webapi.DTOs.Filmes;
+using webapi.MeuApp.DTOs.Diretores;
+using webapi.MeuApp.DTOs.Filmes;
 
-namespace webapi.Validator.Filmes;
+namespace webapi.MeuApp.Validator.Filmes;
 
 public class FilmeDTOInputPostValidator : AbstractValidator<FilmeDTOInputPost>
 {

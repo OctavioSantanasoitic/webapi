@@ -2,12 +2,12 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders.Composite;
-using webapi.DTOs;
-using webapi.DTOs.Diretores;
-using webapi.Models;
-using webapi.Services.Diretores;
+using webapi.MeuApp.DTOs;
+using webapi.MeuApp.DTOs.Diretores;
+using webapi.MeuApp.Models;
+using webapi.MeuApp.Services.Diretores;
 
-namespace webapi.Controllers;
+namespace webapi.MeuApp.Controllers;
 
 [Authorize]
 [ApiController]

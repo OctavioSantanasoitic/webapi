@@ -1,10 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using webapi.DTOs.Diretores;
-using webapi.Models;
+using webapi.MeuApp.DTOs.Diretores;
+using webapi.MeuApp.Models;
+using webapi.MeuApp.Extensions;
 
 
-namespace webapi.Services.Diretores;
+namespace webapi.MeuApp.Services.Diretores;
 
 public class DiretorService : IDiretorService
 {

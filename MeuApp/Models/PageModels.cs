@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 
+namespace webapi.MeuApp.Models;
+
 public class PagedModel<TModel>
 {
     const int MaxPageSize = 5;

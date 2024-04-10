@@ -1,7 +1,7 @@
 using FluentValidation;
-using webapi.DTOs.Diretores;
+using webapi.MeuApp.DTOs.Diretores;
 
-namespace webapi.Validator.Diretores;
+namespace webapi.MeuApp.Validator.Diretores;
 
 public class DiretorDTOInputPutValidator : AbstractValidator<DiretorDTOInputPut>
 {

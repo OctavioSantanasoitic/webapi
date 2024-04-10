@@ -9,7 +9,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using webapi.Models;
+using webapi.MeuApp.Models;
+
+namespace webapi.MeuApp.Controllers;
 
 [ApiController]
 [Route("[controller]")]

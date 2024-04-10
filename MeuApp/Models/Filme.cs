@@ -1,4 +1,4 @@
-namespace webapi.Models;
+namespace webapi.MeuApp.Models;
 
 public class Filme
 {

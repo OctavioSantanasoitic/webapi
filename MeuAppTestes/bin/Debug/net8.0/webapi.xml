@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>webapi</name>
+    </assembly>
+    <members>
+        <member name="M:webapi.MeuApp.Controllers.DiretorController.GetByIdMovies(System.Int64)">
+            <summary>
+            Busca Diretor Pelo Id Específico
+            </summary>
+        </member>
+        <member name="M:webapi.MeuApp.Controllers.DiretorController.GetMovies(System.Threading.CancellationToken,System.Int32,System.Int32)">
+            <summary>
+            Busca Todos os Diretores
+            </summary>
+        </member>
+        <member name="M:webapi.MeuApp.Controllers.DiretorController.Post(webapi.MeuApp.DTOs.Diretores.DiretorDTOInputPost)">
+            <summary>
+            Cria um diretor
+            </summary>
+        </member>
+        <member name="M:webapi.MeuApp.Controllers.DiretorController.Put(webapi.MeuApp.DTOs.Diretores.DiretorDTOInputPut,System.Int32,webapi.MeuApp.AplicattionDbContext)">
+            <summary>
+            Altera Informações do Diretor
+            </summary>
+        </member>
+        <member name="M:webapi.MeuApp.Controllers.DiretorController.DeleteDiretor(System.Int32,webapi.MeuApp.AplicattionDbContext)">
+            <summary>
+            Deleta um diretor
+            </summary>
+        </member>
+        <member name="M:webapi.MeuApp.Controllers.MovieController.GetMovies(System.Threading.CancellationToken,System.Int32,System.Int32)">
+            <summary>
+            Busca Todos os Filmes
+            </summary>
+        </member>
+        <member name="M:webapi.MeuApp.Controllers.MovieController.GetByIdMovies(System.Int32)">
+            <summary>
+            Busca o Filme pelo Id Específico
+            </summary>
+        </member>
+        <member name="M:webapi.MeuApp.Controllers.MovieController.Post(webapi.MeuApp.DTOs.Filmes.FilmeDTOInputPost)">
+            <summary>
+            Cria um Filme
+            </summary>
+        </member>
+        <member name="M:webapi.MeuApp.Controllers.MovieController.Put(System.Int32,webapi.MeuApp.DTOs.Filmes.FilmeDTOInputPut)">
+            <summary>
+            Altera Informações do Filme
+            </summary>
+        </member>
+        <member name="M:webapi.MeuApp.Controllers.MovieController.DeleteFilme(System.Int32)">
+             <summary>
+            Deleta o Filme
+             </summary>
+        </member>
+        <member name="T:webapi.MeuApp.Migrations.PrimeiraVersao">
+            <inheritdoc />
+        </member>
+        <member name="M:webapi.MeuApp.Migrations.PrimeiraVersao.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:webapi.MeuApp.Migrations.PrimeiraVersao.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:webapi.MeuApp.Migrations.PrimeiraVersao.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:webapi.MeuApp.Migrations.AddAuth">
+            <inheritdoc />
+        </member>
+        <member name="M:webapi.MeuApp.Migrations.AddAuth.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:webapi.MeuApp.Migrations.AddAuth.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:webapi.MeuApp.Migrations.AddAuth.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+    </members>
+</doc>

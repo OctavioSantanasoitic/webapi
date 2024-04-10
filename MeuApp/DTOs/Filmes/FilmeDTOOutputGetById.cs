@@ -1,6 +1,6 @@
-using webapi.Models;
+using webapi.MeuApp.Models;
 
-namespace webapi.DTOs.Filmes;
+namespace webapi.MeuApp.DTOs.Filmes;
 
 
 public class FilmeDTOOutputGetById
