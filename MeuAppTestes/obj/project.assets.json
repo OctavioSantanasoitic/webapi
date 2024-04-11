@@ -8612,6 +8612,7 @@
   },
   "projectFileDependencyGroups": {
     "net8.0": [
+      "FluentValidation >= 11.9.0",
       "Microsoft.NET.Test.Sdk >= 17.8.0",
       "coverlet.collector >= 6.0.0",
       "webapi >= 1.0.0",
@@ -8674,6 +8675,10 @@
       "net8.0": {
         "targetAlias": "net8.0",
         "dependencies": {
+          "FluentValidation": {
+            "target": "Package",
+            "version": "[11.9.0, )"
+          },
           "Microsoft.NET.Test.Sdk": {
             "target": "Package",
             "version": "[17.8.0, )"
