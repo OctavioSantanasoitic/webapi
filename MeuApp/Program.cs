@@ -62,7 +62,7 @@ builder.Services.AddSwaggerGen(c =>
     var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
     c.IncludeXmlComments(xmlPath);
 });
-builder.Services.AddDbContext<AplicattionDbContext>(options => options.UseSqlite("Data Source=myapp.db"));
+builder.Services.AddDbContext<AplicattionDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("Default")));
 
 
 builder.Services.AddAuthentication(options =>
