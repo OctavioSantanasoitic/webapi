@@ -1,2 +1,2 @@
 # webapi
-# API para cadastro de Filmes e Diretores
+# API de Filmes e Diretores
